@@ -12,19 +12,26 @@ import axios from 'axios';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const pipelines = withState('pipelines', 'setPipelines', null);
-
+const pipelines = withState('pipelines', 'setPipelines', {
+  pipelineList: null,
+  groupId: null,
+  projectId: null
+});
 
 const handlers = withHandlers({
   loadPipelines: ({ setPipelines }) => async (groupId, projectId) => {
     //API call to get pipelines
     let { data } = await axios.get(`/groups/${groupId}/projects/${projectId}/pipelines`);
-    setPipelines(data);
+    setPipelines({
+      pipelineList: data,
+      groupId,
+      projectId,
+    });
   }
 });
 
 let ProjectCard = ({ project, pipelines, loadPipelines }) => {
-  if(!pipelines && project){
+  if(pipelines.projectId !== project.id || pipelines.groupId !== project.namespace.id){
     loadPipelines(project.id);
   }
   return(
