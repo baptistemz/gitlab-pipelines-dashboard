@@ -15,15 +15,14 @@ const handlers = withHandlers({
     const { status } = await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/retry`);
     setSnack({
       open: true,
-      className: "success-background",
-      message: status === 200 ? "Pipeline retry asked"
+      message: status === 200 ? "Pipeline retry asked" : "Unexpected error"
     });
   },
   cancelPipeline: ({ project, setSnack }) => (pipelineId) => async () => {
     const { status } = await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/cancel`);
     setSnack({
       open: true,
-      message: status === 200 ? "Pipeline cancelled"
+      message: status === 200 ? "Pipeline cancelled" : "Unexpected error"
     });
   }
 });
