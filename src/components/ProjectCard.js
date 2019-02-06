@@ -32,7 +32,7 @@ let ProjectCard = ({ project, pipelines, loadPipelines, retryPipeline, cancelPip
     <Card>
       <CardContent>
         <Typography style={{ position: "relative" }} color="textPrimary" gutterBottom>
-          <h3>{project.name}</h3>
+          <h2>{project.name}</h2>
           <Icon style={{position: "absolute", top: 10, right: 10 }} className={"fa fa-" + STATUS_ICONS[project.import_status] + " text-" + project.import_status === "finished" ? "success" : "danger"}
             aria-label={project.import_status} />
         </Typography>

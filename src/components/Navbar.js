@@ -24,7 +24,7 @@ let Navbar = ({ selectedGroup, groups, anchorEl, setAnchorEl, open, setOpen, onG
   return (
     <AppBar position="static" color="default">
       <Toolbar>
-        <Icon className="fab fa-gitlab"/> 
+        <Icon className="fab fa-gitlab" style={{ marginRight: 10 }}/> 
         <Typography style={{ flexGrow: 1 }} variant="h6" color="inherit">
           Gitlab Pipelines Dashboard
         </Typography>

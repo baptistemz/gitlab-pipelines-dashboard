@@ -59,7 +59,7 @@ let PipeLineListItem = ({ project, pipelineCalls, retryPipeline, cancelPipeline,
         {statusIcon(pipelineCalls[0].sha.substring(0,7), pipelineCalls[0].status)}
       </ListItemText>
       <ListItemIcon>
-        <IconButton size="small" disabled={canRetry(pipelineCalls[0])} aria-label="Retry" onClick={retryPipeline(pipelineCalls[0].id)}>
+        <IconButton size="small" disabled={!canRetry(pipelineCalls[0])} aria-label="Retry" onClick={retryPipeline(pipelineCalls[0].id)}>
           <Icon className="fa fa-redo"/>
         </IconButton>
         <IconButton size="small" disabled={!canCancel(pipelineCalls[0])} aria-label="Cancel" onClick={cancelPipeline(pipelineCalls[0].id)}>
