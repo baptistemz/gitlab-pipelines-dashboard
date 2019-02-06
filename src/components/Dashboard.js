@@ -8,7 +8,7 @@ const projects = withState('projects', 'setProjects', []);
 const selectedProject = withState('selectedProject', 'setSelectedProject', []);
 
 const handlers = withHandlers({
-  loadProjects: () => (groupID) => {
+  loadProjects: () => (groupId) => {
     //API call to get projects
 
   }
@@ -16,7 +16,7 @@ const handlers = withHandlers({
 
 let Dashboard = ({ selectedGroup, projects, loadProjects, selectedProject }) => {
   if(projects.length === 0){
-    loadProjects()
+    loadProjects(selectedGroup.id)
   }
   return (
     <div style={{ padding: "24px"}}>
@@ -25,7 +25,7 @@ let Dashboard = ({ selectedGroup, projects, loadProjects, selectedProject }) => 
           <h1>{selectedGroup.name}</h1>
         </Grid>
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <ProjectCard/>
+          <ProjectCard project={selectedProject}/>
         </Grid>
       </Grid>
     </div>

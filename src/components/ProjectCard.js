@@ -1,12 +1,26 @@
 import React from 'react';
+import { withHandlers, withState, compose, pure } from 'recompose';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+const pipelines = withState('pipelines', 'setPipelines', []);
 
-const ProjectCard = () => {
+const selectedPipeline = withState('selectedPipeline', 'setSelectedPipeline', []);
+
+const handlers = withHandlers({
+  loadPipelines: () => (projectId) => {
+    //API call to get pipelines
+
+  }
+});
+
+let ProjectCard = ({ project, pipelines, loadPipelines }) => {
+  if(pipelines.length === 0){
+    loadPipelines(project.id);
+  }
   return(
     <Card>
       <CardContent>
@@ -33,5 +47,12 @@ const ProjectCard = () => {
     </Card>
   )
 }
+
+ProjectCard = compose(
+  handlers,
+  pipelines,
+  selectedPipeline,
+  pure
+)(ProjectCard)
 
 export default ProjectCard;
