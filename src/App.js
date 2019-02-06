@@ -5,9 +5,10 @@ import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
 import './App.css';
 import axios from 'axios';
+import config from './config.json';
 
 axios.defaults.baseURL = 'https://gitlab.com/api/v4';
-axios.defaults.headers.common['PRIVATE-TOKEN'] = '5MmDnNLv3SZhm6nQRqAG';
+axios.defaults.headers.common['PRIVATE-TOKEN'] = config.token;
 
 const groups = withState('groups', 'setGroups', {groupList: [], selectedGroup:null });
 
