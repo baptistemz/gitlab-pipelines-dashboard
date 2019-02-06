@@ -46,7 +46,7 @@ const handlers = withHandlers({
   }
 });
 
-const canRetry = (pipeline) => _.find(['finished', 'success'], pipeline.status) !== null
+const canRetry = (pipeline) => _.find(['finished', 'failed'], pipeline.status) !== null
 
 const canCancel = (pipeline) => _.find(['pending', 'running'], pipeline.status) !== null
 
@@ -54,7 +54,7 @@ let PipeLineListItem = ({ project, pipelineCalls, retryPipeline, cancelPipeline,
   console.log("pipelineCalls[0]", pipelineCalls[0])
   return(
     <ListItem>
-      <ListItemText primary={`ref: ${pipelineCalls[0].ref}`} />
+      <ListItemText style={{ width: 150 }} primary={`ref: ${pipelineCalls[0].ref}`} />
       <ListItemText>
         {statusIcon(pipelineCalls[0].sha.substring(0,7), pipelineCalls[0].status)}
       </ListItemText>
