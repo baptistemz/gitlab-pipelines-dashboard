@@ -37,7 +37,7 @@ let ProjectCard = ({ project, pipelines, loadPipelines, retryPipeline, cancelPip
             aria-label={project.import_status} />
         </Typography>
         <List component="nav">
-          {pipelines.pipelineList && <PipeLineList list={pipelines.pipelineList}/>}
+          {pipelines.pipelineList && <PipeLineList project={project} list={pipelines.pipelineList}/>}
         </List>
       </CardContent>
       <CardActions>

@@ -12,18 +12,18 @@ const snack = withState('snack', 'setSnack', {
 
 const handlers = withHandlers({
   retryPipeline: ({ project, setSnack }) => (pipelineId) => async () => {
+    const { status } = await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/retry`);
     setSnack({
       open: true,
       className: "success-background",
-      message: "retrying"
+      message: status === 200 ? "Pipeline retry asked"
     });
-    //await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/retry`);
   },
   cancelPipeline: ({ project, setSnack }) => (pipelineId) => async () => {
     const { status } = await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/cancel`);
     setSnack({
       open: true,
-      message: status
+      message: status === 200 ? "Pipeline cancelled"
     });
   }
 });
@@ -32,7 +32,7 @@ const canRetry = (pipeline) => _.find(['finished', 'failed'], pipeline.status) !
 
 const canCancel = (pipeline) => _.find(['pending', 'running'], pipeline.status) !== null
 
-let PipeLineListItem = ({ pipelineCalls, retryPipeline, cancelPipeline, snack }) => {
+let PipeLineListItem = ({ project, pipelineCalls, retryPipeline, cancelPipeline, snack }) => {
   console.log("pipelineCalls[0]", pipelineCalls[0])
   return(
     <ListItem button>
