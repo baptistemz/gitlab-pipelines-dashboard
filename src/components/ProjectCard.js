@@ -32,7 +32,7 @@ let ProjectCard = ({ project, pipelines, loadPipelines, retryPipeline, cancelPip
     <Card>
       <CardContent>
         <Typography color="textPrimary" gutterBottom>
-          {project.name_with_namespace}
+          {project.name}
           <Icon className={"fa fa-" + STATUS_ICONS[project.import_status]}
             aria-label={project.import_status} />
         </Typography>
