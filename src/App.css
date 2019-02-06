@@ -3,3 +3,11 @@
   justify-content: space-between;
   align-items: center
 }
+
+.danger {
+  color: red;
+}
+
+.success {
+  color: green;
+}
