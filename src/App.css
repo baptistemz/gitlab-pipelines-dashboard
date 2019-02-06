@@ -4,10 +4,50 @@
   align-items: center
 }
 
-.danger {
+.danger-text {
   color: red;
 }
 
-.success {
+.warning-text {
+  color: orange;
+}
+
+.success-text {
   color: green;
+}
+
+.danger-background {
+  color: red;
+}
+
+.warning-background {
+  color: orange;
+}
+
+.success-back {
+  color: green;
+}
+
+.justify-center{
+  display: flex;
+  justify-content: center;
+}
+
+.justify-between{
+  display: flex;
+  justify-content: space-between;
+}
+
+.justify-around{
+  display: flex;
+  justify-content: space-around;
+}
+
+.align-items-center{
+  display: flex;
+  align-items: center;
+}
+
+.margin-left-10{
+  margin-left: 10px;
 }

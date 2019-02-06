@@ -10,6 +10,25 @@ const snack = withState('snack', 'setSnack', {
   duration: 6000
 });
 
+const statusIcon = (text, status) => {
+  if(status === "failed"){
+    return <span className="justify-center align-items-center danger-text">
+      {text}
+      <Icon className="fa fa-exclamation-circle margin-left-10"/>
+    </span>
+  }else if(status === "success"){
+    return <span className="justify-center align-items-center success-text">
+      {text}
+      <Icon className="fa fa-check-circle margin-left-10"/>
+    </span>
+  }else{
+    return <span className="justify-center align-items-center warning-text">
+      {text}
+      <Icon className="fa fa-clock margin-left-10"/>
+    </span>
+  }
+}
+
 const handlers = withHandlers({
   retryPipeline: ({ project, setSnack }) => (pipelineId) => async () => {
     const { status } = await axios.post(`/projects/${project.id}/pipelines/${pipelineId}/retry`);
@@ -27,19 +46,20 @@ const handlers = withHandlers({
   }
 });
 
-const canRetry = (pipeline) => _.find(['finished', 'failed'], pipeline.status) !== null
+const canRetry = (pipeline) => _.find(['finished', 'success'], pipeline.status) !== null
 
 const canCancel = (pipeline) => _.find(['pending', 'running'], pipeline.status) !== null
 
 let PipeLineListItem = ({ project, pipelineCalls, retryPipeline, cancelPipeline, snack }) => {
   console.log("pipelineCalls[0]", pipelineCalls[0])
   return(
-    <ListItem button>
+    <ListItem>
       <ListItemText primary={`ref: ${pipelineCalls[0].ref}`} />
-      <ListItemText secondary={pipelineCalls[0].sha.substring(0,7)} />
+      <ListItemText>
+        {statusIcon(pipelineCalls[0].sha.substring(0,7), pipelineCalls[0].status)}
+      </ListItemText>
       <ListItemIcon>
-        <Icon className="fa fa-exclamation-circle"/>
-        <IconButton size="small" disabled={!canRetry(pipelineCalls[0])} aria-label="Retry" onClick={retryPipeline(pipelineCalls[0].id)}>
+        <IconButton size="small" disabled={canRetry(pipelineCalls[0])} aria-label="Retry" onClick={retryPipeline(pipelineCalls[0].id)}>
           <Icon className="fa fa-redo"/>
         </IconButton>
         <IconButton size="small" disabled={!canCancel(pipelineCalls[0])} aria-label="Cancel" onClick={cancelPipeline(pipelineCalls[0].id)}>

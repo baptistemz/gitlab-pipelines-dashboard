@@ -23,7 +23,7 @@ const handlers = withHandlers({
 const STATUS_ICONS = {
   "failed": "times",
   "finished": "check",
-}; 
+};
 let ProjectCard = ({ project, pipelines, loadPipelines, retryPipeline, cancelPipeline }) => {
   if(pipelines.projectId !== project.id){
     loadPipelines(project.id);
@@ -31,9 +31,9 @@ let ProjectCard = ({ project, pipelines, loadPipelines, retryPipeline, cancelPip
   return(
     <Card>
       <CardContent>
-        <Typography color="textPrimary" gutterBottom>
-          {project.name}
-          <Icon className={"fa fa-" + STATUS_ICONS[project.import_status]}
+        <Typography style={{ position: "relative" }} color="textPrimary" gutterBottom>
+          <h3>{project.name}</h3>
+          <Icon style={{position: "absolute", top: 10, right: 10 }} className={"fa fa-" + STATUS_ICONS[project.import_status] + " text-" + project.import_status === "finished" ? "success" : "danger"}
             aria-label={project.import_status} />
         </Typography>
         <List component="nav">
