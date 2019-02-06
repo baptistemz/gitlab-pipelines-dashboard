@@ -1,12 +1,7 @@
 import React from 'react';
 import { withHandlers, withState, compose, pure } from 'recompose';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import PipeLineList from './PipeLineList';
+import { CardContent, CardActions, Card, Button, Icon, List, IconButton, Typography } from '@material-ui/core';
 import axios from 'axios';
 
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
@@ -31,7 +26,7 @@ const handlers = withHandlers({
 const STATUS_ICONS = {
   "failed": "times",
   "finished": "check",
-}; 
+};
 let ProjectCard = ({ project, pipelines, loadPipelines }) => {
   if(pipelines.projectId !== project.id){
     loadPipelines(project.id);
@@ -49,6 +44,9 @@ let ProjectCard = ({ project, pipelines, loadPipelines }) => {
         <Typography color="textSecondary" gutterBottom>
           {project.name_with_namespace}
         </Typography>
+        <List component="nav">
+          {pipelines.pipelineList && <PipeLineList list={pipelines.pipelineList}/>}
+        </List>
       </CardContent>
       <CardActions>
         <IconButton size="small" aria-label="Retry">

@@ -1,5 +1,6 @@
 import React from 'react';
 import { withHandlers, withState, compose, pure } from 'recompose';
+import { Persist } from 'react-persist';
 import Dashboard from './components/Dashboard';
 import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
@@ -30,6 +31,12 @@ let App = ({ groups, loadGroups, setGroups }) => {
   }
   return (
     <div>
+      <Persist
+        name="groups"
+        data={groups}
+        debounce={100}
+        onMount={groups => setGroups(groups)}
+      />
       <Navbar
         onGroupSelect={(selectedGroup) => setGroups({ ...groups, selectedGroup })}
         selectedGroup={groups.selectedGroup}
