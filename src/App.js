@@ -1,28 +1,40 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
+import { withHandlers, withState, compose, pure } from 'recompose';
+import Dashboard from './components/Dashboard';
+import LoadingScreen from './components/LoadingScreen';
+import Navbar from './components/Navbar';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+const groups = withState('groups', 'setGroups', []);
+
+const selectedGroup = withState('selectedGroup', 'setSelectedGroup', []);
+
+const handlers = withHandlers({
+  loadGroups: () => () => {
+    //API call to get groups
+
   }
+});
+
+let App = ({ groups, selectedGroup, loadGroups }) => {
+  if(groups.length === 0){
+    loadGroups()
+    return <LoadingScreen/>
+  }
+  return (
+    <div>
+      <Navbar groups={groups}/>
+      <Dashboard selectedgroup={selectedGroup} />
+    </div>
+  )
 }
+
+App = compose(
+  groups,
+  selectedGroup,
+  handlers,
+  pure
+)(App);
 
 export default App;
