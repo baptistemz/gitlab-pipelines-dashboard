@@ -15,6 +15,7 @@ const handlers = withHandlers({
 });
 
 let Dashboard = ({ selectedGroup, projects, loadProjects, selectedProject }) => {
+  console.log(selectedGroup);
   if(projects.length === 0){
     loadProjects()
   }

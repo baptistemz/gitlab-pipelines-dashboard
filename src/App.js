@@ -4,35 +4,39 @@ import Dashboard from './components/Dashboard';
 import LoadingScreen from './components/LoadingScreen';
 import Navbar from './components/Navbar';
 import './App.css';
+import axios from 'axios';
 
+axios.defaults.baseURL = 'https://gitlab.com/api/v4';
+axios.defaults.headers.common['PRIVATE-TOKEN'] = '5MmDnNLv3SZhm6nQRqAG';
 
-const groups = withState('groups', 'setGroups', []);
-
-const selectedGroup = withState('selectedGroup', 'setSelectedGroup', []);
+const groups = withState('groups', 'setGroups', {groupList: [], selectedGroup:null });
 
 const handlers = withHandlers({
-  loadGroups: () => () => {
+  loadGroups: ({ setGroups }) => async () => {
     //API call to get groups
-
+    let { data } = await axios.get('/groups');
+    setGroups({
+      groupList: data,
+      selectedGroup: data.length && data[0] 
+    });
   }
 });
 
-let App = ({ groups, selectedGroup, loadGroups }) => {
-  if(groups.length === 0){
+let App = ({ groups, loadGroups }) => {
+  if(groups.groupList.length === 0){
     loadGroups()
     return <LoadingScreen/>
   }
   return (
     <div>
-      <Navbar groups={groups}/>
-      <Dashboard selectedgroup={selectedGroup} />
+      <Navbar groups={groups.groupList}/>
+      <Dashboard selectedGroup={groups.selectedGroup} />
     </div>
   )
 }
 
 App = compose(
   groups,
-  selectedGroup,
   handlers,
   pure
 )(App);
