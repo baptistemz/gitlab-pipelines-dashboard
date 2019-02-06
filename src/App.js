@@ -18,19 +18,22 @@ const handlers = withHandlers({
     let { data } = await axios.get('/groups');
     setGroups({
       groupList: data,
-      selectedGroup: data.length && data[0] 
+      selectedGroup: data.length && data[0]
     });
   }
 });
 
-let App = ({ groups, loadGroups }) => {
+let App = ({ groups, loadGroups, setGroups }) => {
   if(groups.groupList.length === 0){
     loadGroups()
     return <LoadingScreen/>
   }
   return (
     <div>
-      <Navbar groups={groups.groupList}/>
+      <Navbar
+        onGroupSelect={(selectedGroup) => setGroups({ ...groups, selectedGroup })}
+        selectedGroup={groups.selectedGroup}
+        groups={groups.groupList}/>
       <Dashboard selectedGroup={groups.selectedGroup} />
     </div>
   )
