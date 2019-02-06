@@ -14,7 +14,7 @@ const handlers = withHandlers({
   }
 });
 
-const DashBoard = ({ selectedGroup, projects, loadProjects, selectedProject }) => {
+let Dashboard = ({ selectedGroup, projects, loadProjects, selectedProject }) => {
   if(projects.length === 0){
     loadProjects()
   }
@@ -32,4 +32,11 @@ const DashBoard = ({ selectedGroup, projects, loadProjects, selectedProject }) =
   )
 }
 
-export default DashBoard;
+Dashboard = compose(
+  projects,
+  selectedProject,
+  handlers,
+  pure
+)(Dashboard)
+
+export default Dashboard;

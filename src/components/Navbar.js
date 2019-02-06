@@ -5,15 +5,13 @@ import Typography from '@material-ui/core/Typography';
 
 const Navbar = () => {
   return (
-    <div style={{flexGrow: 1}}>
-      <AppBar position="static" color="default">
-        <Toolbar>
-          <Typography variant="h6" color="inherit">
-            Gitlab Pipelines Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="static" color="default">
+      <Toolbar>
+        <Typography variant="h6" color="inherit">
+          Gitlab Pipelines Dashboard
+        </Typography>
+      </Toolbar>
+    </AppBar>
   )
 }
 
