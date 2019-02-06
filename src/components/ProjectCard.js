@@ -4,28 +4,34 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 
-const pipelines = withState('pipelines', 'setPipelines', []);
+import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-const selectedPipeline = withState('selectedPipeline', 'setSelectedPipeline', []);
+const pipelines = withState('pipelines', 'setPipelines', null);
+
 
 const handlers = withHandlers({
-  loadPipelines: () => (projectId) => {
+  loadPipelines: ({ setPipelines }) => async (groupId, projectId) => {
     //API call to get pipelines
-
+    let { data } = await axios.get(`/groups/${groupId}/projects/${projectId}/pipelines`);
+    setPipelines(data);
   }
 });
 
 let ProjectCard = ({ project, pipelines, loadPipelines }) => {
-  if(pipelines.length === 0){
+  if(!pipelines && project){
     loadPipelines(project.id);
   }
   return(
     <Card>
       <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          Word of the Day
+          {project.branch}
         </Typography>
         <Typography variant="h5" component="h2">
           be
@@ -42,7 +48,12 @@ let ProjectCard = ({ project, pipelines, loadPipelines }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <IconButton size="small" aria-label="Retry">
+          <PhotoCamera />
+        </IconButton>
+        <IconButton size="small" aria-label="Cancel">
+          <DeleteIcon />
+        </IconButton>
       </CardActions>
     </Card>
   )
@@ -51,7 +62,6 @@ let ProjectCard = ({ project, pipelines, loadPipelines }) => {
 ProjectCard = compose(
   handlers,
   pipelines,
-  selectedPipeline,
   pure
 )(ProjectCard)
 
