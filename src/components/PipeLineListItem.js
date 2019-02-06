@@ -7,7 +7,7 @@ const PipeLineListItem = ({ pipelineCalls }) => {
     <ListItem button>
       <ListItemText primary={`ref: ${pipelineCalls[0].ref}`} />
       <ListItemText secondary={pipelineCalls[0].sha.substring(0,7)} />
-      <ListItemText><Icon className="fa fa-cancel"/></ListItemText>
+      <ListItemText><Icon className="fa fa-exclamation-circle"/></ListItemText>
       <ListItemIcon>
       </ListItemIcon>
     </ListItem>
