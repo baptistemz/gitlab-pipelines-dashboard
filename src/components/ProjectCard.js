@@ -14,52 +14,51 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 const pipelines = withState('pipelines', 'setPipelines', {
   pipelineList: null,
-  groupId: null,
   projectId: null
 });
 
 const handlers = withHandlers({
-  loadPipelines: ({ setPipelines }) => async (groupId, projectId) => {
+  loadPipelines: ({ setPipelines }) => async (projectId) => {
     //API call to get pipelines
-    let { data } = await axios.get(`/groups/${groupId}/projects/${projectId}/pipelines`);
+    let { data } = await axios.get(`/projects/${projectId}/pipelines`);
     setPipelines({
       pipelineList: data,
-      groupId,
-      projectId,
+      projectId
     });
   }
 });
 
+const STATUS_ICONS = {
+  "failed": "times",
+  "finished": "check",
+}; 
 let ProjectCard = ({ project, pipelines, loadPipelines }) => {
-  if(pipelines.projectId !== project.id || pipelines.groupId !== project.namespace.id){
+  if(pipelines.projectId !== project.id){
     loadPipelines(project.id);
   }
   return(
     <Card>
       <CardContent>
+        <Typography color="textPrimary" gutterBottom>
+          {project.name_with_namespace}
+          <Icon className={"fa fa-" + STATUS_ICONS[project.import_status]}
+            aria-label={project.import_status} />
+        </Typography>
+      </CardContent>
+      <CardContent>
         <Typography color="textSecondary" gutterBottom>
-          {project.branch}
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be
-          nev
-          lent
-        </Typography>
-        <Typography color="textSecondary">
-          adjective
-        </Typography>
-        <Typography component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          {project.name_with_namespace}
         </Typography>
       </CardContent>
       <CardActions>
         <IconButton size="small" aria-label="Retry">
-          <PhotoCamera />
+          <Icon className="fa fa-redo"/>
         </IconButton>
         <IconButton size="small" aria-label="Cancel">
-          <DeleteIcon />
+          <Icon className="fa fa-trash"/>
+        </IconButton>
+        <IconButton size="small" aria-label="Gitlab">
+          <Icon className="fab fa-gitlab"/>
         </IconButton>
       </CardActions>
     </Card>
@@ -67,8 +66,8 @@ let ProjectCard = ({ project, pipelines, loadPipelines }) => {
 }
 
 ProjectCard = compose(
-  handlers,
   pipelines,
+  handlers,
   pure
 )(ProjectCard)
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { withState, withHandlers, compose, pure } from 'recompose';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
@@ -23,6 +24,7 @@ let Navbar = ({ selectedGroup, groups, anchorEl, setAnchorEl, open, setOpen, onG
   return (
     <AppBar position="static" color="default">
       <Toolbar>
+        <Icon className="fab fa-gitlab"/> 
         <Typography style={{ flexGrow: 1 }} variant="h6" color="inherit">
           Gitlab Pipelines Dashboard
         </Typography>
