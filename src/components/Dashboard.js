@@ -5,7 +5,8 @@ import { withState, withHandlers, compose, pure } from 'recompose';
 import axios from 'axios';
 
 const projects = withState('projects', 'setProjects', {
-  projectList: null
+  projectList: null,
+  groupId: null
 });
 
 const handlers = withHandlers({
@@ -14,12 +15,13 @@ const handlers = withHandlers({
     let { data } = await axios.get(`/groups/${groupId}/projects`);
     setProjects({
       projectList: data,
+      groupId
     });
   }
 });
 
 let Dashboard = ({ selectedGroup, projects, loadProjects }) => {
-  if(!projects.projectList && selectedGroup){
+  if(projects.groupId !== selectedGroup.id){
     loadProjects(selectedGroup.id)
   }
   const proj = projects.projectList;
